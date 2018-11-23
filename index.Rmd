@@ -20,7 +20,7 @@ testing_raw_df <- read.csv("/Users/prosales/Documents/Personales/08 - Practical 
 ```
 
 
-## Understanding the Data:  Exploring and Profiling
+## 1. Understanding the Data:  Exploring and Profiling
 
 Two data sets are provided as part of the project:  a training set and a test set.  
 The training set has the following dimensions (rows, columns):
@@ -54,7 +54,7 @@ after exploring the data (not shown here), 3 relevant findings can be discovered
 With these findings, it is possible to discriminate these variables as they do not provide
 valuable information to build the model.
 
-## Preparing the Data
+## 2. Preparing the Data
 
 As stated in previous section, several variables do not provide enough information according to the
 3 criteria.  Hence, these will be removed from the predictors list in 3 stages:  First remove identifiers,
@@ -102,7 +102,7 @@ final_training_set <- training_after_filter_3_df[training_set_indexes, ]
 final_testing_set <- training_after_filter_3_df[-training_set_indexes, ]
 ```
 
-## Building and Interpreting the Model
+## 3. Building and Interpreting the Model
 
 The modeling technique of choice was "Random Forests"; the rationale to choose the modeling technique is:  
 1) The nature of the problem is classification.
@@ -111,14 +111,15 @@ The modeling technique of choice was "Random Forests"; the rationale to choose t
 
 The resulting model is: 
 ``` {r echo = FALSE}
-#rf_fit_1 <- train(classe ~ ., data = final_training_set, method = "rf") 
-rf_fit_1 <- train(classe ~ ., data = final_training_set[sample(dim(final_training_set)[1], size=100), ], method = "rf") 
+rf_fit_1 <- train(classe ~ ., data = final_training_set, method = "rf") 
+
+#rf_fit_1 <- train(classe ~ ., data = final_training_set[sample(dim(final_training_set)[1], size=100), ], method = "rf") 
 
 # visualizing accuracy
 rf_fit_1
 ```
 
-## Predicting with the Model 
+## 4. Predicting with the Model 
 
 To test the model with a different set of values, the test subset was used to predict the classe variable.
 The resulting confusion matrix is:
@@ -131,13 +132,13 @@ rf_prediction_1 <- predict(rf_fit_1, final_testing_set)
 confusionMatrix(table(rf_prediction_1, final_testing_set$classe))
 ```
 
-## Interpreting and Evaluating the model
+## 5. Interpreting and Evaluating the model
 
-### Cross-Validation
+### 5.1. Cross-Validation
 
 In random forests, since it is internally done during the model creation, there is no need to do cross-validation, as it is explained in:  https://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#ooberr [Ref. 1]
 
-### In and Out Sampling Errors
+### 5.2. In and Out Sampling Errors
 
 The in sample error is "the error rate you get on the same data set you used to build your predictor" [Ref. 2]; 
 in this particular model is: 1 - 0.9981672 = 0.0018328 ~ 0.18328 %
@@ -145,28 +146,13 @@ in this particular model is: 1 - 0.9981672 = 0.0018328 ~ 0.18328 %
 The out of sample error is "the error rate you get on a new data set" [Ref. 2]; 
 in this particular model is: 1 - 0.9993 ~ .07%
 
-### Visualizing Predictors
-
-Two plots of predictors will be used to visualize some aspects of the model; the first is the importance 
-of predictors:
-
-```{r echo = FALSE}
-#plot(varImp(rf_fit_1), main = "Figure 1.  Importance vs Predictors")
-```
-
-And the second plot corresponds to the predictors that are 3rd and 4th in importance to predict the classe.
-
-```{r echo = FALSE}
-#qplot(roll_belt, pitch_forearm,  data = final_testing_set, color = classe, main = "roll_belt and pitch_forearem as Predictors of Classe")
-```
-
-## Conclusions
+## 6. Conclusions
 
 1. Random forests predicted with a high accuracy (0.9993) the classe variable.
 2. The interpretation of the model is not clear.
 3. The model predicted correctly all the values of the quiz. 
 
-## References
+## 7. References
 
 [1] https://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#ooberr
 

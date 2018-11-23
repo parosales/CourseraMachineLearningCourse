@@ -130,7 +130,7 @@ $(document).ready(function () {
 
 
 <div id="understanding-the-data-exploring-and-profiling" class="section level2">
-<h2>Understanding the Data: Exploring and Profiling</h2>
+<h2>1. Understanding the Data: Exploring and Profiling</h2>
 <p>Two data sets are provided as part of the project: a training set and a test set.<br />
 The training set has the following dimensions (rows, columns):</p>
 <pre><code>## [1] 19622   160</code></pre>
@@ -153,89 +153,84 @@ The training set has the following dimensions (rows, columns):</p>
 <p>With these findings, it is possible to discriminate these variables as they do not provide valuable information to build the model.</p>
 </div>
 <div id="preparing-the-data" class="section level2">
-<h2>Preparing the Data</h2>
+<h2>2. Preparing the Data</h2>
 <p>As stated in previous section, several variables do not provide enough information according to the 3 criteria. Hence, these will be removed from the predictors list in 3 stages: First remove identifiers, second remove columns with more than 90% of NAs and third, remove columns with zero variance. After applying the 3 filters, the training set has the following dimensions (rows, cols):</p>
 <pre><code>## [1] 19622    57</code></pre>
 <p>Having selected the predictors, the next step was to split the testing data set into two subsets: one for training and the other for testing the model. The proportions are: 70% for the training subset and the remaining 30% for the testing subset.</p>
 </div>
 <div id="building-and-interpreting-the-model" class="section level2">
-<h2>Building and Interpreting the Model</h2>
+<h2>3. Building and Interpreting the Model</h2>
 <p>The modeling technique of choice was “Random Forests”; the rationale to choose the modeling technique is:<br />
 1) The nature of the problem is classification. 2) Provide good accuracy. 3) For this domain, interpretability is not an issue.</p>
 <p>The resulting model is:</p>
 <pre><code>## Random Forest 
 ## 
-## 100 samples
-##  56 predictor
-##   5 classes: 'A', 'B', 'C', 'D', 'E' 
+## 13737 samples
+##    56 predictor
+##     5 classes: 'A', 'B', 'C', 'D', 'E' 
 ## 
 ## No pre-processing
 ## Resampling: Bootstrapped (25 reps) 
-## Summary of sample sizes: 100, 100, 100, 100, 100, 100, ... 
+## Summary of sample sizes: 13737, 13737, 13737, 13737, 13737, 13737, ... 
 ## Resampling results across tuning parameters:
 ## 
 ##   mtry  Accuracy   Kappa    
-##    2    0.4959727  0.3780368
-##   38    0.4909169  0.3684925
-##   74    0.4789653  0.3543026
+##    2    0.9905470  0.9880386
+##   38    0.9985443  0.9981584
+##   74    0.9978629  0.9972959
 ## 
 ## Accuracy was used to select the optimal model using the largest value.
-## The final value used for the model was mtry = 2.</code></pre>
+## The final value used for the model was mtry = 38.</code></pre>
 </div>
 <div id="predicting-with-the-model" class="section level2">
-<h2>Predicting with the Model</h2>
+<h2>4. Predicting with the Model</h2>
 <p>To test the model with a different set of values, the test subset was used to predict the classe variable. The resulting confusion matrix is:</p>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##                
 ## rf_prediction_1    A    B    C    D    E
-##               A 1034  139  167   68   34
-##               B  197  618  165   59  117
-##               C  291  160  438   92   10
-##               D  122   88  110  604   86
-##               E   30  134  146  141  835
+##               A 1674    2    0    0    0
+##               B    0 1137    3    0    0
+##               C    0    0 1023    0    0
+##               D    0    0    0  963    0
+##               E    0    0    0    1 1082
 ## 
 ## Overall Statistics
-##                                          
-##                Accuracy : 0.5997         
-##                  95% CI : (0.587, 0.6122)
-##     No Information Rate : 0.2845         
-##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
-##                                          
-##                   Kappa : 0.4962         
-##  Mcnemar's Test P-Value : &lt; 2.2e-16      
+##                                           
+##                Accuracy : 0.999           
+##                  95% CI : (0.9978, 0.9996)
+##     No Information Rate : 0.2845          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.9987          
+##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            0.6177   0.5426  0.42690   0.6266   0.7717
-## Specificity            0.9031   0.8866  0.88619   0.9175   0.9061
-## Pos Pred Value         0.7171   0.5346  0.44198   0.5980   0.6493
-## Neg Pred Value         0.8560   0.8898  0.87985   0.9262   0.9463
-## Prevalence             0.2845   0.1935  0.17434   0.1638   0.1839
-## Detection Rate         0.1757   0.1050  0.07443   0.1026   0.1419
-## Detection Prevalence   0.2450   0.1964  0.16839   0.1716   0.2185
-## Balanced Accuracy      0.7604   0.7146  0.65655   0.7720   0.8389</code></pre>
+## Sensitivity            1.0000   0.9982   0.9971   0.9990   1.0000
+## Specificity            0.9995   0.9994   1.0000   1.0000   0.9998
+## Pos Pred Value         0.9988   0.9974   1.0000   1.0000   0.9991
+## Neg Pred Value         1.0000   0.9996   0.9994   0.9998   1.0000
+## Prevalence             0.2845   0.1935   0.1743   0.1638   0.1839
+## Detection Rate         0.2845   0.1932   0.1738   0.1636   0.1839
+## Detection Prevalence   0.2848   0.1937   0.1738   0.1636   0.1840
+## Balanced Accuracy      0.9998   0.9988   0.9985   0.9995   0.9999</code></pre>
 </div>
 <div id="interpreting-and-evaluating-the-model" class="section level2">
-<h2>Interpreting and Evaluating the model</h2>
+<h2>5. Interpreting and Evaluating the model</h2>
 <div id="cross-validation" class="section level3">
-<h3>Cross-Validation</h3>
+<h3>5.1. Cross-Validation</h3>
 <p>In random forests, since it is internally done during the model creation, there is no need to do cross-validation, as it is explained in: <a href="https://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#ooberr" class="uri">https://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#ooberr</a> [Ref. 1]</p>
 </div>
 <div id="in-and-out-sampling-errors" class="section level3">
-<h3>In and Out Sampling Errors</h3>
+<h3>5.2. In and Out Sampling Errors</h3>
 <p>The in sample error is “the error rate you get on the same data set you used to build your predictor” [Ref. 2]; in this particular model is: 1 - 0.9981672 = 0.0018328 ~ 0.18328 %</p>
 <p>The out of sample error is “the error rate you get on a new data set” [Ref. 2]; in this particular model is: 1 - 0.9993 ~ .07%</p>
 </div>
-<div id="visualizing-predictors" class="section level3">
-<h3>Visualizing Predictors</h3>
-<p>Two plots of predictors will be used to visualize some aspects of the model; the first is the importance of predictors:</p>
-<p>And the second plot corresponds to the predictors that are 3rd and 4th in importance to predict the classe.</p>
-</div>
 </div>
 <div id="conclusions" class="section level2">
-<h2>Conclusions</h2>
+<h2>6. Conclusions</h2>
 <ol style="list-style-type: decimal">
 <li>Random forests predicted with a high accuracy (0.9993) the classe variable.</li>
 <li>The interpretation of the model is not clear.</li>
@@ -243,7 +238,7 @@ The training set has the following dimensions (rows, columns):</p>
 </ol>
 </div>
 <div id="references" class="section level2">
-<h2>References</h2>
+<h2>7. References</h2>
 <p>[1] <a href="https://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#ooberr" class="uri">https://www.stat.berkeley.edu/~breiman/RandomForests/cc_home.htm#ooberr</a></p>
 <p>[2] Course slides, lesson # 4.</p>
 <p>[3] <a href="http://groupware.les.inf.puc-rio.br/har" class="uri">http://groupware.les.inf.puc-rio.br/har</a></p>
